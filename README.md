@@ -61,6 +61,7 @@ gather 'analytics/{date}.json' > metrics.json
     }, 
     {
         "date": "2014-10-02", 
+        ...
     }, 
     ...
 ]
