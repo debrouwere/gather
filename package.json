@@ -1,0 +1,34 @@
+{
+  "name": "gather-cli",
+  "author": "Stijn Debrouwere",
+  "description": "Merge JSON files, with a twist: optionally add metadata from the filename or the files' stats to each dataset.",
+  "version": "0.2.0",
+  "main": "./lib/index.js",
+  "dependencies": {
+    "async": "^0.9.0",
+    "commander": "2.1.x",
+    "findit": "^2.0.0",
+    "underscore": "^1.7.0"
+  },
+  "devDependencies": {
+    "coffee-script": "1.8.x", 
+    "mocha": "^1.21.4",
+    "should": "^4.0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stdbrouw/gather.git"
+  },
+  "licenses": [
+    {
+      "type": "ISC",
+      "url": "http://github.com/stdbrouw/gather/raw/master/LICENSE"
+    }
+  ],
+  "scripts": {
+    "test": "make test"
+  }, 
+  "bin": {
+    "gather": "bin/gather"
+  }
+}
