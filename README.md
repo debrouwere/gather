@@ -54,10 +54,16 @@ gather 'analytics/{date}.json' > metrics.json
 ... the resulting metrics.json file will contain a `date` key
 
 ```json
-{
-    "date": "2014-10-01", 
+[
+    {
+        "date": "2014-10-01", 
+        ...
+    }, 
+    {
+        "date": "2014-10-02", 
+    }, 
     ...
-}
+]
 ```
 
 ## File metadata
