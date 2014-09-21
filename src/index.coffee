@@ -11,21 +11,25 @@ utils = require './utils'
 class FileCache
     constructor: (path) ->
         raw = fs.readFileSync path, encoding: 'utf8'
-        files = JSON.parse raw
+        candidateFiles = JSON.parse raw
 
-        for file in files
-            # we can't cache an object that 
-            # doesn't have an mtime
+        @files = {}
+        for file in candidateFiles
+            # we can't cache an object that doesn't 
+            # have path or mtime in its metadata
+            # (we wouldn't know if it was stale)
             try
-                mtime = (new Date file.origin.mtime).getTime()
-            catch err
+                origin = file.origin or file._origin
+                path = origin.absolute
+                mtime = (new Date origin.mtime).getTime()
+            catch
                 continue          
-            @files[file.path.absolute] = {}
-            @files[file.path.absolute][mtime] = file
+            @files[path] = {}
+            @files[path][mtime] = file
 
     get: (stats) ->
         mtime = stats.mtime.getTime()
-        @data[stats.path.absolute]?[mtime]
+        @files[stats.absolute]?[mtime]
 
 describeFile = (relativePath, stats) ->
     relative = relativePath
@@ -54,7 +58,8 @@ matchFiles = (route, files) ->
             _.extend file, {metadata}
 
 processFile = (fileDescription, options, callback) ->
-    if options.cache and cached = options.cache.get fileDescriptions
+    if options.cache and cached = options.cache.get fileDescription
+        cached.origin.cached = yes
         return callback null, cached
 
     metadata = fileDescription.metadata
@@ -102,7 +107,9 @@ module.exports = (input, options..., callback) ->
     route = new PathExp input
 
     if options.cache and fs.existsSync options.cache
-        cache = new FileCache options.cache
+        options.cache = new FileCache options.cache
+    else
+        options.cache = no
 
     matchRoute = _.partial matchFiles, route
     processFilesWithOptions = _.partial processFiles, _, options
@@ -115,10 +122,14 @@ module.exports = (input, options..., callback) ->
         ]
 
     async.waterfall steps, (err, items) ->
+        [cached, uncached] = _.partition items, (item) -> item.origin.cached
+
         if options.raw
-            items = items.map (item) -> item.data
+            uncached = uncached.map (item) -> item.data
         else if not options.annotate
-            items = items.map (item) ->
+            uncached = uncached.map (item) ->
                 _.pick item, 'data', 'metadata'
 
-        callback err, items.map schemes[options.scheme]
+        uncached = uncached.map schemes[options.scheme]
+        all = cached.concat uncached
+        callback err, all

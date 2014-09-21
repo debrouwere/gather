@@ -9,6 +9,7 @@ clean:
 
 .PHONY: test
 test: build
+	rm -f examples/staff.json
 	mocha test \
 		--require should \
 		--compilers coffee:coffee-script/register

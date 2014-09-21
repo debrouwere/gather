@@ -1,5 +1,6 @@
 _ = require 'underscore'
 fs = require 'fs'
+async = require 'async'
 {exec} = require 'child_process'
 should = require 'should'
 gather = require '../src'
@@ -87,4 +88,25 @@ describe 'command-line interface', ->
             data = JSON.parse stdout
             data.length.should.eql 3
             data[2].lastname.should.eql 'smith'
+            done err
+
+    # this is a pretty incomplete test, but better
+    # than nothing I s'pose
+    it 'can do partial rebuilds', (done) ->
+        command = "./bin/gather examples/staff/{lastname}.json \
+            --annotate \
+            --output examples/staff.json"
+        
+        gatherCommand = _.partial exec, command
+        async.series [gatherCommand, gatherCommand], (err) ->
+            raw = fs.readFileSync 'examples/staff.json', encoding: 'utf8'
+            data = JSON.parse raw
+            data.length.should.eql 3
+            lastnames = _.pluck data, 'lastname'
+            difference = _.difference lastnames, [
+                'jones'
+                'karlsson'
+                'smith'
+                ]
+            difference.length.should.eql 0
             done err

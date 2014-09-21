@@ -115,7 +115,7 @@ An example of the extended naming scheme:
 
 ## Partial rebuilds
 
-When using the `--extended` format, the origin of each piece of data that makes up the merged dataset will be a part of the output. This metadata makes it possible, on subsequent gathering operations, to only update or remove data that has changed rather than redoing the entire merge from scratch.
+When adding additional metadata using the `--annotate` option, the origin of each piece of data that makes up the merged dataset will be a part of the output. This metadata makes it possible, on subsequent gathering operations, to only update or remove data that has changed rather than redoing the entire merge from scratch.
 
 For example, you've added a new staff member at `/staff/smith.json` and would like to update the `staff.json` file which contains thousands of staff members. For every staff member in `/staff`, `gather` will first try to see if it can't get up-to-date information from the existing `staff.json` file. Only for `smith.json` it can't, so only the `smith.json` will need to be loaded and parsed from disk.
 
