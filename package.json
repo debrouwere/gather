@@ -7,7 +7,7 @@
   "dependencies": {
     "async": "^0.9.0",
     "commander": "2.1.x",
-    "date-expand": "^0.1.1",
+    "date-expand": "^0.1.2",
     "findit": "^2.0.0",
     "simple-path-expressions": "^1.0.0-rc4",
     "underscore": "^1.7.0"
