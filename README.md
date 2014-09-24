@@ -26,7 +26,7 @@ yaml2json posts \
     --prose \
     --convert markdown
 gather 'posts/{year}-{month}-{day}-{permalink}.json' \
-    --extended \
+    --annotate \
     --output posts/all.json
 render post.jade
     --input posts/all.json \
@@ -75,7 +75,7 @@ File metadata includes:
 * if the file path contains `{year}`, `{month}` and `{day}` placeholders, a date inferred from these variables in the same [extended JSON format](https://github.com/stdbrouw/date-expand)
 * the file's absolute and relative path, basename and extension
 
-While path metadata is enabled by default, file metadata is not. Use the `--extended` flag to enable file metadata.
+While path metadata is enabled by default, file metadata is not. Use the `--annotate` flag to enable file metadata.
 
 Here's an example of file metadata: 
 
