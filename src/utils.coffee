@@ -6,13 +6,15 @@ _ = require 'underscore'
 exports.inferDate = (sets...) ->
     set = _.extend {}, sets...
     {datetime, date, time, year, month, day, hours, minutes, seconds} = set
+    
+    time ?= [hours or '00', minutes or '00', seconds or '00'].join ':'
+
     if datetime
         inferred = new Date datetime
     else if date
         inferred = new Date "#{date} #{time}"
     else if year and month and day
         date = [year, month, day].join '-'
-        time = [hours, minutes, seconds].join ':'
         inferred = new Date "#{date} #{time}"
 
     if inferred and not isNaN inferred.valueOf()
