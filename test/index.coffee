@@ -87,7 +87,13 @@ describe 'command-line interface', ->
         exec command, (err, stdout, stderr) ->
             data = JSON.parse stdout
             data.length.should.eql 3
-            data[2].lastname.should.eql 'smith'
+            lastnames = _.pluck data, 'lastname'
+            difference = _.difference lastnames, [
+                'jones'
+                'karlsson'
+                'smith'
+                ]
+            difference.length.should.eql 0
             done err
 
     # this is a pretty incomplete test, but better
