@@ -1,6 +1,6 @@
 # Gather
 
-[![Build Status](https://travis-ci.org/stdbrouw/gather.svg)](https://travis-ci.org/stdbrouw/gather)
+[![Build Status](https://travis-ci.org/debrouwere/gather.svg)](https://travis-ci.org/debrouwere/gather)
 
 Gather is a command-line tool that merges JSON files, with a twist: gather can optionally add metadata from the filename or the file's [stats](http://nodejs.org/api/fs.html#fs_class_fs_stats) to each dataset. Because sometimes filenames are just meaningless descriptors, but often they're not.
 
