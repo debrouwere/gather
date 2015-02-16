@@ -25,7 +25,7 @@ exports.inferDate = (sets...) ->
 
 # remove keys from an object if their value is undefined, 
 # similar to what _.compact does for an array
-exports.compactObject = _.partial _.pick, _, _.identity
+exports.compactObject = _.partial _.pick, _, (_.negate _.isUndefined)
 
 
 exports.optional = (options) ->
